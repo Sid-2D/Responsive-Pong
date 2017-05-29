@@ -1,12 +1,19 @@
 var PONG = {
-	pressedKeys: []
+	pressedKeys: [],
+	ball: {
+		speed: 5,
+		x: 150,
+		y: 150,
+		directionX: 1,
+		directionY: 1
+	}
 }
 
 var KEYS = {
-	'UP': 38,
-	'S': 83,
-	'W': 87,
-	'DOWN': 40
+	UP: 38,
+	S: 83,
+	W: 87,
+	DOWN: 40
 }
 
 
@@ -22,6 +29,7 @@ function refactor() {
 
 function gameLoop() {
 	movePaddles()
+	moveBall()
 }
 
 function movePaddles() {
@@ -43,6 +51,28 @@ function movePaddles() {
 		var top = getComputedStyle(paddleA)['top']
 		paddleA.style.top = parseInt(top) - 5 + 'px'
 	}
+}
+
+function moveBall() {
+	var playRoomHeight = parseInt(document.getElementById('playroom').offsetHeight)
+	var playRoomWidth = parseInt(document.getElementById('playroom').offsetWidth)
+	var ball = PONG.ball
+	if (ball.y + ball.speed * ball.directionY > playRoomHeight) {
+		ball.directionY = -1
+	}
+	if (ball.y + ball.speed * ball.directionY < 0) {
+		ball.directionY = 1
+	}
+	if (ball.x + ball.speed * ball.directionX > playRoomWidth) {
+		ball.directionX = -1
+	}
+	if (ball.x + ball.speed * ball.directionX < 0) {
+		ball.directionX = 1
+	}
+	ball.x += ball.speed * ball.directionX
+	ball.y += ball.speed * ball.directionY
+	document.getElementById('ball').style.left = ball.x + 'px'
+	document.getElementById('ball').style.top = ball.y + 'px'
 }
 
 function oldModel() {
