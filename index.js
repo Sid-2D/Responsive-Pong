@@ -71,6 +71,20 @@ function moveBall() {
 	}
 	ball.x += ball.speed * ball.directionX
 	ball.y += ball.speed * ball.directionY
+
+	// Collision detection
+	var paddleA = document.getElementById('paddleA')
+	var paddleB = document.getElementById('paddleB')
+	var paddleAX = parseInt(getComputedStyle(paddleA)['left']) + parseInt(getComputedStyle(paddleA)['width'])
+	if (ball.x + ball.speed * ball.directionX < paddleAX) {
+		ball.directionX = 1
+		console.log('Collision with A')
+	}
+	var paddleBX = parseInt(getComputedStyle(paddleB)['left']) + parseInt(getComputedStyle(paddleB)['width'])
+	if (ball.x + ball.speed * ball.directionX >= paddleBX) {
+		ball.directionX = -1
+		console.log('Collision with B')
+	}
 	document.getElementById('ball').style.left = ball.x + 'px'
 	document.getElementById('ball').style.top = ball.y + 'px'
 }
