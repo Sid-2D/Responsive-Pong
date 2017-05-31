@@ -69,22 +69,38 @@ function moveBall() {
 	if (ball.x + ball.speed * ball.directionX < 0) {
 		ball.directionX = 1
 	}
-	ball.x += ball.speed * ball.directionX
-	ball.y += ball.speed * ball.directionY
 
 	// Collision detection
 	var paddleA = document.getElementById('paddleA')
 	var paddleB = document.getElementById('paddleB')
+
+	// Left Paddle
 	var paddleAX = parseInt(getComputedStyle(paddleA)['left']) + parseInt(getComputedStyle(paddleA)['width'])
+	var paddleAYTop = parseInt(getComputedStyle(paddleA)['top'])
+	var paddleAYBottom = paddleAYTop + parseInt(getComputedStyle(paddleA)['height'])
 	if (ball.x + ball.speed * ball.directionX < paddleAX) {
-		ball.directionX = 1
-		console.log('Collision with A')
+		if (ball.y + ball.speed * ball.directionY <= paddleAYBottom &&
+		    ball.y + ball.speed * ball.directionY >= paddleAYTop) {
+			ball.directionX = 1
+			console.log('Collision with A')
+		}
 	}
-	var paddleBX = parseInt(getComputedStyle(paddleB)['left']) + parseInt(getComputedStyle(paddleB)['width'])
+
+	// Right Paddle
+	var paddleBX = parseInt(getComputedStyle(paddleB)['left']) - 15
+	var paddleBYTop = parseInt(getComputedStyle(paddleB)['top'])
+	var paddleBYBottom = paddleBYTop + parseInt(getComputedStyle(paddleB)['height'])
 	if (ball.x + ball.speed * ball.directionX >= paddleBX) {
-		ball.directionX = -1
-		console.log('Collision with B')
+		if (ball.y + ball.speed * ball.directionY <= paddleBYBottom &&
+		    ball.y + ball.speed * ball.directionY >= paddleBYTop) {
+			ball.directionX = -1
+			console.log('Collision with B')
+		}
 	}
+
+	ball.x += ball.speed * ball.directionX
+	ball.y += ball.speed * ball.directionY
+
 	document.getElementById('ball').style.left = ball.x + 'px'
 	document.getElementById('ball').style.top = ball.y + 'px'
 }
